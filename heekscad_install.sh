@@ -1,8 +1,14 @@
 #!/bin/bash
 DEPENDS="subversion fakeroot  dpkg-dev libboost-python-dev liboce-*"
-DEPENDS="$DEPENDS oce-draw libgtkglext1-dev libboost-dev"
+DEPENDS="$DEPENDS oce-draw libgtkglext1-dev libboost-dev bzr"
 WORK_DIR="${HOME}/heeks"
 MAKEFLAGS="-j2"
+
+src_libarea="http://code.google.com/p/libarea/"
+src_heekscad="http://code.google.com/p/heekscad/"
+src_heekscnc="http://code.google.com/p/heekscnc/"
+src_opencamlib="https://github.com/aewallin/opencamlib.git"
+src_debianize_ocl="lp:~neomilium/opencamlib/packaging"
 
 echo " _   _           _         ____    _    ____  "
 echo "| | | | ___  ___| | _____ / ___|  / \  |  _ \ "
@@ -37,20 +43,24 @@ rm *.deb 2>/dev/zero
 if [ -d "${WORK_DIR}/heekscad" ]; then
     cd "${WORK_DIR}/heekscad" && svn update
 else
-    cd $WORK_DIR
-    svn checkout http://heekscad.googlecode.com/svn/trunk/ heekscad
+    cd $WORK_DIR && svn checkout $src_heekscad heekscad
 fi
 if [ -d "${WORK_DIR}/heekscnc" ]; then
     cd "${WORK_DIR}/heekscnc" && svn update
 else
-    cd $WORK_DIR
-    svn checkout http://heekscnc.googlecode.com/svn/trunk/ heekscnc
+    cd $WORK_DIR && svn checkout $src_heekscnc heekscnc
 fi
 if [ -d "${WORK_DIR}/libarea" ]; then
     cd "${WORK_DIR}/libarea" && svn update
 else
-    cd $WORK_DIR
-    svn checkout http://libarea.googlecode.com/svn/trunk/ libarea
+    cd $WORK_DIR && svn checkout $src_libarea libarea
+fi
+if [ -d "${WORK_DIR}/opencamlib" ]; then
+    cd "${WORK_DIR}/opencamlib" && git pull
+    cd "debian" && bzr merge
+else
+    cd $WORK_DIR && git clone $src_opencamlib
+    bzr branch $debianize_ocl debian    
 fi
 
 echo " --> Building libarea ..."
@@ -64,10 +74,8 @@ dpkg-buildpackage -b
 cd .. && sudo dpkg -i heekscad*.deb libheekstinyxml*.deb
 
 echo " --> Building heekscnc ..."
-cd "${WORK_DIR}"
-git clone https://github.com/aewallin/opencamlib.git
-cd opencamlib
-bzr branch lp:~neomilium/opencamlib/packaging debian
+cd "${WORK_DIR}/opencamlib"
+
 dpkg-buildpackage -b -us -uc
 cd .. && sudo dpkg -i python-ocl*.deb
 
