@@ -1,0 +1,8 @@
+build*
+*.deb
+*.changes
+heekscad/
+heekscnc*
+libarea*
+opencamlib*
+
