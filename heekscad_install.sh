@@ -4,9 +4,9 @@ DEPENDS="$DEPENDS oce-draw libgtkglext1-dev libboost-dev bzr"
 WORK_DIR="${HOME}/heeks"
 MAKEFLAGS="-j2"
 
-src_libarea="http://code.google.com/p/libarea/"
-src_heekscad="http://code.google.com/p/heekscad/"
-src_heekscnc="http://code.google.com/p/heekscnc/"
+src_libarea="http://libarea.googlecode.com/svn/trunk/"
+src_heekscad="http://heekscad.googlecode.com/svn/trunk/"
+src_heekscnc="http://heekscnc.googlecode.com/svn/trunk/"
 src_opencamlib="https://github.com/aewallin/opencamlib.git"
 src_debianize_ocl="lp:~neomilium/opencamlib/packaging"
 
