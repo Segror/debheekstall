@@ -1,8 +1,8 @@
 #!/bin/bash
 DEPENDS="subversion fakeroot  dpkg-dev libboost-python-dev liboce-*"
 DEPENDS="$DEPENDS oce-draw libgtkglext1-dev libboost-dev bzr"
-WORK_DIR="${HOME}/dev/heeks"
-MAKEFLAGS="-j4"
+WORK_DIR="${HOME}/heeks"
+MAKEFLAGS="-j2"
 
 src_libarea="http://code.google.com/p/libarea/"
 src_heekscad="http://code.google.com/p/heekscad/"
