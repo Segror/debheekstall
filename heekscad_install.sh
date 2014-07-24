@@ -1,8 +1,8 @@
 #!/bin/bash
 DEPENDS="subversion fakeroot  dpkg-dev libboost-python-dev liboce-*"
 DEPENDS="$DEPENDS oce-draw libgtkglext1-dev libboost-dev bzr"
-WORK_DIR="${HOME}/heeks"
-MAKEFLAGS="-j2"
+WORK_DIR="${HOME}/dev/heeks"
+MAKEFLAGS="-j4"
 
 src_libarea="http://code.google.com/p/libarea/"
 src_heekscad="http://code.google.com/p/heekscad/"
@@ -60,7 +60,7 @@ if [ -d "${WORK_DIR}/opencamlib" ]; then
     cd "debian" && bzr merge
 else
     cd $WORK_DIR && git clone $src_opencamlib
-    bzr branch $debianize_ocl debian    
+    bzr branch $src_debianize_ocl debian    
 fi
 
 echo " --> Building libarea ..."
